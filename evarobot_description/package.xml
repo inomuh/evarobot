@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <name>evarobot_description</name>
+  <version>0.0.7</version>
+  <description>evarobot_description provides a complete 3D model of the Evarobot for simulation and visualization.</description>
+
+  <author>Mehmet Akcakoca</author>
+  <maintainer email="akcakocamehmet@gmail.com">Mehmet Akcakoca</maintainer>
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/evarobot_description</url>
+  <url type="repository">https://github.com/inomuh/evarobot</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+
+</package>

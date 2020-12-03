@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+  <name>evarobot_navigation</name>
+  <version>0.0.7</version>
+  <description>evarobot_navigation provides roslaunch script files to navigate the Evarobot.</description>
+
+  <author>Mehmet Akcakoca</author>
+  <maintainer email="akcakocamehmet@gmail.com">Mehmet Akcakoca</maintainer>
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/evarobot_navigation</url>
+  <url type="repository">https://github.com/inomuh/evarobot</url>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <run_depend>roscpp</run_depend>
+  
+  <run_depend>map_server</run_depend>
+  <run_depend>move_base</run_depend>
+  <run_depend>master_discovery_fkie</run_depend>
+  <run_depend>master_sync_fkie</run_depend>
+  <run_depend>evarobot_state_publisher</run_depend>
+  <run_depend>rplidar_ros</run_depend>
+  <run_depend>amcl</run_depend>
+  <run_depend>frontier_exploration</run_depend>
+  <run_depend>gmapping</run_depend>
+</package>

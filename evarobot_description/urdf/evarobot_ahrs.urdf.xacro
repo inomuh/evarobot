@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:macro name="evarobot_ahrs" params="prefix joint_x joint_y joint_z joint_roll joint_pitch joint_yaw parent_link topic_name frame_name update_rate service_name robot_namespace">
+	
+		<link name="${prefix}_link">
+			<inertial>
+				<mass value="0.001"/>
+				<origin rpy="0 0 0" xyz="0 0 0"/>
+				<inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+			</inertial>
+			
+			<visual>
+				<origin rpy="0 0 0" xyz="0 0 0"/>
+				<geometry>
+					<box size="0.001 0.001 0.001"/>
+				</geometry>
+			</visual>
+			
+			<collision>
+				<origin rpy="0 0 0" xyz="0 0 0"/>
+				<geometry>
+					<box size=".001 .001 .001"/>
+				</geometry>
+			</collision>
+		</link>
+		
+		<joint name="${prefix}_joint" type="fixed">
+			<axis xyz="1 0 0"/>
+			<origin xyz="${joint_x} ${joint_y} ${joint_z}" rpy="${joint_roll} ${joint_pitch} ${joint_yaw}" />
+			<parent link="${parent_link}"/>
+			<child link="${prefix}_link"/>
+		</joint>
+
+		<gazebo>
+			<plugin name="${prefix}_plugin" filename="libgazebo_ros_imu.so">
+				<alwaysOn>true</alwaysOn>
+		<!--		<robotNamespace>gazebo</robotNamespace>     -->
+				<frameName>${frame_name}</frameName>   
+				<bodyName>${prefix}_link</bodyName>
+				<topicName>${topic_name}</topicName>
+				<serviceName>${service_name}</serviceName>
+				<gaussianNoise>0.0</gaussianNoise>
+				<updateRate>${update_rate}</updateRate> 
+			</plugin>
+		</gazebo>
+		
+
+	</xacro:macro>
+
+</robot>

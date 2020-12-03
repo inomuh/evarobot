@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:macro name="evarobot_sonar" 
+	params="prefix
+			parent_link
+			scan_samples scan_resolution min_angle max_angle
+			range_resolution min_range max_range
+			topic_name frame_name
+			update_rate
+			*plate_name
+			">
+
+
+
+		<link name="${prefix}_link">
+			<inertial>
+				<mass value="0.001" />
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+			</inertial>
+			
+<!--			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://evarobot_description/meshes/smo13.stl" scale="0.01 0.01 0.01"/>
+				</geometry>
+			</visual>
+-->			
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<box size="0.01 0.01 0.01" />
+				</geometry>
+			</collision>
+		</link>
+	
+		<joint name="${prefix}_joint" type="fixed">
+			<axis xyz="1 0 0" />
+			<xacro:insert_block name="plate_name" />
+			<!--<origin xyz="${joint_x} ${joint_y} ${joint_z}" rpy="${joint_roll} ${joint_pitch} ${joint_yaw}"/>-->
+			<parent link="${parent_link}"/>
+			<child link="${prefix}_link"/>
+		</joint>
+
+		<!-- Sonar Plugin -->
+		<gazebo reference="${prefix}_link">
+			<sensor type="ray" name="${prefix}">
+				<pose>0 0 0 0 0 0</pose>
+				<ray>
+					<scan>
+						<horizontal>
+							<samples>${scan_samples}</samples>
+							<resolution>${scan_resolution}</resolution>
+							<min_angle>${min_angle}</min_angle>
+							<max_angle>${max_angle}</max_angle>
+						</horizontal>
+					</scan>
+					
+					<range>
+						<min>${min_range}</min>
+						<max>${max_range}</max>
+						<resolution>${range_resolution}</resolution>
+					</range>
+				</ray>
+				
+				<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+					<topicName>${topic_name}</topicName>
+					<frameName>${frame_name}</frameName>
+					<frameId>${frame_name}</frameId>
+					<radiation>ultrasound</radiation>
+					<fov>0.7</fov>
+					<gaussianNoise>0</gaussianNoise>
+				</plugin>
+				
+				<always_on>1</always_on>
+				<update_rate>${update_rate}</update_rate>
+				<visualize>true</visualize>
+			</sensor>
+		</gazebo>
+
+
+	</xacro:macro>
+</robot>

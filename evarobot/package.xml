@@ -1,0 +1,23 @@
+<package>
+  <name>evarobot</name>
+  <version>0.0.7</version>
+  <description>
+    The evarobot meta package provides all the basic packages for model and navigation of Evarobot.
+  </description>
+  <author>Mehmet Akcakoca</author>
+  <maintainer email="akcakocamehmet@gmail.com">Mehmet Akcakoca</maintainer>
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/evarobot</url>
+  <url type="repository">https://github.com/inomuh/evarobot</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>evarobot_description</run_depend>
+  <run_depend>evarobot_navigation</run_depend>
+  <run_depend>evarobot_slam</run_depend>
+  <run_depend>evarobot_simulation</run_depend>
+  
+  <export>
+    <metapackage/>
+  </export>
+</package>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+	<xacro:macro name="evarobot_bumper" 
+	params="prefix
+			box_x box_y box_z
+			update_rate
+			parent_link
+			topic_name
+			frame_name
+			*plate_name
+			">
+
+		<!-- Bumper Link -->
+		<link name="${prefix}_link">
+			<inertial>
+				<mass value="1e-5" />
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+			</inertial>
+			
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					<box size="${box_x} ${box_y} ${box_z}"/>
+				</geometry>
+				<contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+			</collision>
+		</link>
+
+		<!-- Bumper joint -->
+		<joint name="${prefix}_joint" type="fixed">
+			<axis xyz="0 1 0" />
+			<xacro:insert_block name="plate_name" />
+			<!--	<origin xyz="${joint_x} ${joint_y} ${joint_z}" rpy="${joint_roll} ${joint_pitch} ${joint_yaw}"/> -->
+			<parent link="${parent_link}"/>
+			<child link="${prefix}_link"/>
+		</joint>
+
+		<!-- Bumper plugin -->
+		<gazebo reference="${prefix}_link">
+			<sensor name="${prefix}" type="contact">
+				<always_on>true</always_on>
+				<update_rate>${update_rate}</update_rate>
+
+				<contact>
+					<collision>${prefix}_link_collision</collision>
+				</contact>
+
+				<plugin name="${prefix}_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
+					<bumperTopicName>${topic_name}</bumperTopicName>
+					<frameName>${frame_name}</frameName>
+				</plugin>
+
+			</sensor>
+		</gazebo>	
+			
+	</xacro:macro>
+</robot>

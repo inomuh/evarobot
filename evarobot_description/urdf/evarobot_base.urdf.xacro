@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="eva_base">
+    
+	<xacro:macro name="evarobot_base" params="prefix mesh_x mesh_y mesh_z mesh_roll mesh_pitch mesh_yaw box_x box_y box_z">
+		<link name="${prefix}_link">
+		
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					<box size="${box_x} ${box_y} ${box_z}"/> 
+				</geometry>
+			</collision>
+			
+			<visual>
+				<origin xyz="${mesh_x} ${mesh_y} ${mesh_z}" rpy="${mesh_roll} ${mesh_pitch} ${mesh_yaw}" />  
+				<geometry>
+					<mesh filename="package://evarobot_description/meshes/base.stl" scale="1 1 1"/> 
+				</geometry>
+				<material name="Black" />
+			</visual>
+			
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="10.0"/>
+				<inertia
+					ixx="1.0" ixy="0" ixz="0"
+					iyy="1.0" iyz="0"
+					izz="1.0"/>
+			</inertial>
+		</link>
+		
+		<gazebo reference="${prefix}_link">
+      		<material>Gazebo/Black</material> 
+		</gazebo>
+		  
+    
+		<link name="${prefix}color_link">
+		
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					<box size="0.0001 0.0001 0.0001"/> 
+				</geometry>
+			</collision>
+			
+			<visual>
+				<origin xyz="${mesh_x} ${mesh_y} ${mesh_z}" rpy="${mesh_roll} ${mesh_pitch} ${mesh_yaw}" /> 
+				<geometry>
+					<mesh filename="package://evarobot_description/meshes/base_orange.stl" scale="1 1 1"/>  
+				</geometry>
+				<material name="Orange" />
+			</visual>
+
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.0001"/>
+				<inertia
+					ixx="1e-6" ixy="0.0" ixz="0.0"
+					iyy="1e-6" iyz="0.0"
+					izz="1e-6"/>
+			</inertial>
+			
+		</link>
+		
+		<gazebo reference="${prefix}color_link">
+      		<material>Gazebo/Orange</material> 
+		</gazebo>
+				
+		<joint name="${prefix}color_joint" type="fixed">
+			<axis xyz="0 1 0" />
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<parent link="${prefix}_link"/>
+			<child link="${prefix}color_link"/>
+		</joint>    
+     
+    
+    
+    
+	</xacro:macro>
+</robot>

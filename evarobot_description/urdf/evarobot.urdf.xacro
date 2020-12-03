@@ -1,0 +1,313 @@
+<?xml version="1.0"?>
+<!--
+  The complete evarobot library of xacros for easy reference
+ -->
+<robot name="evarobot" xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <xacro:property name="pi" value="3.1415926535897931" />
+  
+  <!-- Includes -->
+  <xacro:include filename="$(find evarobot_description)/urdf/materials.urdf.xacro"/>
+  <xacro:include filename="$(find evarobot_description)/urdf/evarobot_base.urdf.xacro"/>
+  <xacro:include filename="$(find evarobot_description)/urdf/evarobot_caster.urdf.xacro"/>
+  <xacro:include filename="$(find evarobot_description)/urdf/evarobot_wheel.urdf.xacro"/>
+  <xacro:include filename="$(find evarobot_description)/urdf/evarobot_ahrs.urdf.xacro"/> 
+  <xacro:include filename="$(find evarobot_description)/urdf/evarobot_sonar.urdf.xacro"/>
+  <xacro:include filename="$(find evarobot_description)/urdf/evarobot_kinect.urdf.xacro"/> 
+  <xacro:include filename="$(find evarobot_description)/urdf/evarobot_lidar.urdf.xacro"/> 
+  <!--<xacro:include filename="$(find evarobot_description)/urdf/evarobot_bumper.urdf.xacro"/> -->
+  <xacro:include filename="$(find evarobot_description)/urdf/plates.urdf.xacro"/>
+  
+
+
+ <!-- Differential Drive Plugin -->
+ <gazebo>
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+	  <alwaysOn>true</alwaysOn>
+	  <updateRate>10.0</updateRate> 
+		<robotBaseFrame>base_link</robotBaseFrame>
+		<publishWheelTF>true</publishWheelTF>
+		<publishWheelJointState>true</publishWheelJointState>
+		<wheelAcceleration>1</wheelAcceleration>
+		<leftJoint>left_wheel_joint</leftJoint>
+		<rightJoint>right_wheel_joint</rightJoint>
+		<wheelSeparation>0.33</wheelSeparation>
+		<wheelDiameter>0.17</wheelDiameter>
+		<wheelTorque>20</wheelTorque>
+		<commandTopic>cmd_vel</commandTopic>
+		<odometryTopic>odom</odometryTopic>
+		<odometryFrame>odom</odometryFrame>
+    </plugin>
+  </gazebo>
+
+  	<!-- Base -->
+  	<xacro:evarobot_base prefix="base" 
+					   mesh_x="0.065" 
+					   mesh_y="-0.11" 
+					   mesh_z="-0.15" 
+					   mesh_roll="0.0" 
+					   mesh_pitch="0.0" 
+					   mesh_yaw="0" 
+					   box_x="0.40" 
+					   box_y="0.30" 
+					   box_z="0.30" />
+					   
+  	<!-- Left Wheel -->
+  	<xacro:evarobot_wheel prefix="left_wheel" 
+						joint_x="0.0" 
+						joint_y="0.16" 
+						joint_z="${-0.15 + (85-54)/1000}" 
+						joint_roll="0.0" 
+						joint_pitch="0.0" 
+						joint_yaw="0.0" 
+						cylinder_length="0.035" 
+						cylinder_radius="0.085" 
+						parent_link="base_link" />
+  
+  	<!-- Right Wheel 	 -->					
+  	<xacro:evarobot_wheel prefix="right_wheel" 
+						joint_x="0.0" 
+						joint_y="-0.16" 
+						joint_z="${-0.15 + (85-54)/1000}" 
+						joint_roll="0.0" 
+						joint_pitch="0.0" 
+						joint_yaw="0.0" 
+						cylinder_length="0.035" 
+						cylinder_radius="0.085" 
+						parent_link="base_link" />
+	
+  	<!-- Caster -->  
+  	<xacro:evarobot_caster prefix="front_caster" 
+						 radius="0.025" 
+						 x="0.1604" 
+						 y="0.0" 
+						 z="${-0.15 -13.5/2000}" 
+						 roll="0.0"
+						 pitch="0.0" 
+						 yaw="0.0" 
+						 axis_x="0.577350269" 
+						 axis_y="0.577350269" 
+						 axis_z="0.577350269" 
+						 parent_link="base_link" />
+
+    <xacro:evarobot_caster prefix="rear_caster" 
+						 radius="0.025" 
+						 x="-0.1604" 
+						 y="0.0" 
+						 z="${-0.15 -13.5/2000}" 
+						 roll="0.0" 
+						 pitch="0.0" 
+						 yaw="0.0" 
+						 axis_x="0.577350269" 
+						 axis_y="0.577350269" 
+						 axis_z="0.577350269" 
+						 parent_link="base_link" />						 
+						 
+  	<!-- Lidar -->
+  	<xacro:evarobot_lidar prefix="lidar" 
+                        joint_x="-0.15" 
+                        joint_y="0.0" 
+                        joint_z="${0.4415 + 100/1000}" 
+                        joint_roll="0.0" 
+                        joint_pitch="0.0" 
+                        joint_yaw="3.14" 
+						update_rate="40" 
+						samples="720" 
+						resolution="1" 
+						min_angle="-3.1416" 
+						max_angle="3.1416"
+						min_range="0.5" 
+						max_range="5.0" 
+						range_resolution="0.1"
+						parent_link="base_link"
+						robot_namespace="sensor" 
+						topic_name="lidar" 
+						frame_name="lidar_link" /> 
+												
+												
+
+  	<!-- Kinect -->
+   	<xacro:evarobot_kinect prefix="kinect"
+						 joint_x="0.17" 
+						 joint_y="0.0" 
+						 joint_z="${0.21 - 18.7/1000}" 
+						 joint_roll="0.0" 
+						 joint_pitch="0.0" 
+						 joint_yaw="0.0"
+						 parent_link="base_link"
+						 base_line="0.2"
+						 update_rate="1.0"
+						 camera_name="camera" /> 
+
+  	<!-- AHRS/IMU -->
+  	<xacro:evarobot_ahrs prefix="imu"
+					   joint_x="0.0" 
+					   joint_y="0.0" 
+					   joint_z="0.19" 
+					   joint_roll="${pi}" 
+					   joint_pitch="0.0" 
+					   joint_yaw="0.0" 
+					   parent_link="base_link" 
+					   topic_name="imu" 
+					   frame_name="imu_link" 
+					   update_rate="10.0" 
+					   service_name="imu_service" 
+					   robot_namespace="evarobot" />
+			   
+ 	<!-- Sonar -->
+	<xacro:evarobot_sonar prefix="sonar0"
+				parent_link="base_link"
+				scan_samples="320" 
+				scan_resolution="1" 
+				min_angle="-0.479965544" 
+				max_angle="0.479965544"
+				range_resolution="0.01" 
+				min_range="0.02" 
+				max_range="5.0"
+				topic_name="sonar0" 
+				frame_name="sonar0_link"
+				update_rate="4" >
+
+		<origin xyz="0.130 -0.147 ${0.03+50/1000}" rpy="0 0 ${-pi/3}" />
+	</xacro:evarobot_sonar>
+			
+  	<xacro:evarobot_sonar prefix="sonar1"
+						parent_link="base_link"
+						scan_samples="320" 
+						scan_resolution="1" 
+						min_angle="-0.479965544" 
+						max_angle="0.479965544"
+						range_resolution="0.01" 
+						min_range="0.02" 
+						max_range="5.0"
+						topic_name="sonar1" 
+						frame_name="sonar1_link"
+						update_rate="4">
+		
+		<origin xyz="0.213 0.0 ${0.03+50/1000}" rpy="0 0 0" />
+	</xacro:evarobot_sonar>
+	
+
+	<xacro:evarobot_sonar prefix="sonar2"
+				parent_link="base_link"
+				scan_samples="320" 
+				scan_resolution="1" 
+				min_angle="-0.479965544" 
+				max_angle="0.479965544"
+				range_resolution="0.01" 
+				min_range="0.02" 
+				max_range="5.0"
+				topic_name="sonar2" 
+				frame_name="sonar2_link"
+				update_rate="4" >
+		
+		<origin xyz="0.130 0.147 ${0.03+50/1000}" rpy="0 0 ${pi/3}" />						
+	</xacro:evarobot_sonar>
+
+	<xacro:evarobot_sonar prefix="sonar3"
+					parent_link="base_link"
+					scan_samples="320" 
+					scan_resolution="1" 
+					min_angle="-0.479965544" 
+					max_angle="0.479965544"
+					range_resolution="0.01" 
+					min_range="0.02" 
+					max_range="5.0"
+					topic_name="sonar3" 
+					frame_name="sonar3_link"
+					update_rate="4">
+		
+		<origin xyz="-0.045 0.168 ${0.03+50/1000}" rpy="0 0 ${pi/2}" />				
+	</xacro:evarobot_sonar>	
+			
+	<xacro:evarobot_sonar prefix="sonar4"
+					parent_link="base_link"
+					scan_samples="320" 
+					scan_resolution="1" 
+					min_angle="-0.479965544" 
+					max_angle="0.479965544"
+					range_resolution="0.01" 
+					min_range="0.02" 
+					max_range="5.0"
+					topic_name="sonar4" 
+					frame_name="sonar4_link"
+					update_rate="4" >
+		
+		<origin xyz="-0.191 0.084 ${0.03+50/1000}" rpy="0 0 ${5*pi/6}" />
+	</xacro:evarobot_sonar>
+
+	<xacro:evarobot_sonar prefix="sonar5"
+					parent_link="base_link"
+					scan_samples="320" 
+					scan_resolution="1" 
+					min_angle="-0.479965544" 
+					max_angle="0.479965544"
+					range_resolution="0.01" 
+					min_range="0.02" 
+					max_range="5.0"
+					topic_name="sonar5" 
+					frame_name="sonar5_link"
+					update_rate="4" >
+		
+		<origin xyz="-0.191 -0.084 ${0.03+50/1000}" rpy="0 0 ${-5*pi/6}" />
+	</xacro:evarobot_sonar>
+  
+  	<xacro:evarobot_sonar prefix="sonar6"
+						parent_link="base_link"
+						scan_samples="320" 
+						scan_resolution="1" 
+						min_angle="-0.479965544" 
+						max_angle="0.479965544"
+						range_resolution="0.01" 
+						min_range="0.02" 
+						max_range="5.0"
+						topic_name="sonar6" 
+						frame_name="sonar6_link"
+						update_rate="4">
+		
+		<origin xyz="-0.045 -0.168 ${0.03+50/1000}" rpy="0 0 ${-pi/2}" />
+  	</xacro:evarobot_sonar>
+   
+ 	<!-- Bumper 
+  	<xacro:evarobot_bumper prefix="bumper0"
+						 box_x="0.015" 
+						 box_y="0.015" 
+						 box_z="0.020"
+						 update_rate="10.0"
+						 parent_link="base_link"
+						 topic_name="bumper0"
+						 frame_name="bumper0_link">
+
+  		<origin xyz="0.191 -0.084 ${-0.122+50/1000}" rpy="0 0 ${-pi/6}" />
+	</xacro:evarobot_bumper>
+	
+				 
+						 
+  	<xacro:evarobot_bumper prefix="bumper1"
+						 box_x="0.015" 
+						 box_y="0.015" 
+						 box_z="0.020"
+						 update_rate="10.0"
+						 parent_link="base_link"
+						 topic_name="bumper1"
+						 frame_name="bumper1_link" >
+
+		<origin xyz="0.213 0.0 ${-0.122+50/1000}" rpy="0 0 0" />
+	</xacro:evarobot_bumper>
+						 
+
+						 
+  	<xacro:evarobot_bumper prefix="bumper2"
+						 box_x="0.015" 
+						 box_y="0.015" 
+						 box_z="0.020"
+						 update_rate="10.0"
+						 parent_link="base_link"
+						 topic_name="bumper2"
+						 frame_name="bumper2_link" >
+
+  		<origin xyz="0.191 0.084 ${-0.122+50/1000}" rpy="0 0 ${pi/6}" />
+	</xacro:evarobot_bumper>-->
+									 
+  
+</robot>

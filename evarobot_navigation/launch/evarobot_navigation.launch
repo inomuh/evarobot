@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- Run Gazebo -->
+  <arg name="world_path" default="worlds/empty.world"/>
+  <include file="$(find evarobot_simulation)/launch/evarobot_gazebo_emptyworld.launch">
+	<arg name="world_path" value="$(arg world_path)"/>
+  </include>
+
+  <!-- Run the map server -->
+  <arg name="map_file" default="$(find evarobot_navigation)/map/map.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!--- Run AMCL -->
+  <include file="$(find evarobot_navigation)/launch/amcl_diff.launch" />
+
+  <!--- Run Move Base -->
+  <include file="$(find evarobot_navigation)/launch/move_base.launch" />
+  
+  <!-- Run rviz -->
+  <include file="$(find evarobot_simulation)/launch/evarobot_rviz.launch" />
+</launch>

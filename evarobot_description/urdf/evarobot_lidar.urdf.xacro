@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+	<xacro:macro name="evarobot_lidar" 
+	params="prefix joint_x joint_y joint_z joint_roll joint_pitch joint_yaw 
+				   update_rate samples resolution min_angle max_angle
+				   min_range max_range range_resolution
+				   parent_link
+				   robot_namespace topic_name frame_name"> 
+
+		<link name="${prefix}_link">
+			<inertial>
+				<mass value="1e-5" />
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+			</inertial>
+
+			<visual>
+				<origin xyz="${-55/1000} ${-110/1000} ${-50/1000}" rpy="${-pi/2} ${pi} 0"/>
+				<geometry>
+					<mesh filename="package://evarobot_description/meshes/rplidar.stl" scale="0.001 0.001 0.001" />
+				</geometry>
+
+				<material name="Black" />
+			</visual>
+
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					<box size="0.1 0.1 0.1"/>
+				</geometry>
+			</collision>		
+		</link>
+		
+		<joint name="${prefix}_joint" type="fixed">
+			<axis xyz="0 1 0" />
+			<origin xyz="${joint_x} ${joint_y} ${joint_z}" rpy="${joint_roll} ${joint_pitch} ${joint_yaw}"/>
+			<parent link="${parent_link}"/>
+			<child link="${prefix}_link"/>
+		</joint>
+					
+		<gazebo reference="${prefix}_link">
+			<material>Gazebo/Black</material>
+			<sensor type="gpu_ray" name="head_hokuyo_sensor">
+				<pose>0 0 0 0 0 0</pose>
+				<visualize>false</visualize>
+				<update_rate>${update_rate}</update_rate>
+				<ray>
+					<scan>
+						<horizontal>
+							<samples>${samples}</samples>
+							<resolution>${resolution}</resolution>
+							<min_angle>${min_angle}</min_angle>
+							<max_angle>${max_angle}</max_angle>
+						</horizontal>
+					</scan>
+					
+					<range>
+						<min>${min_range}</min>
+						<max>${max_range}</max>
+						<resolution>${range_resolution}</resolution>
+					</range>
+					
+					<noise>
+						<type>gaussian</type>
+					<!--	 Noise parameters based on published spec for Hokuyo laser
+						achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+						stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+						reading.  -->
+						<mean>0.0</mean>
+						<stddev>0.01</stddev>
+					</noise>
+				</ray>
+
+    			<plugin name="${prefix}_controller" filename="libgazebo_ros_gpu_laser.so">
+					<topicName>${topic_name}</topicName>
+					<frameName>${frame_name}</frameName>
+				</plugin> 
+			</sensor>
+		</gazebo>
+	
+
+	</xacro:macro>
+</robot>
