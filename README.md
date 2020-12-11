@@ -78,6 +78,10 @@ Requirements:
 - In order for the sensors to work properly, "gazebo_ros_pkgs" files must be downloaded to your computer.
 
         $ sudo apt-get install ros-noetic-gazebo-ros-pkgs
+    
+- In order for the navigation tools to work properly, "ros-navigation" must be downloaded to your computer.
+
+        $ sudo apt-get install ros-noetic-ros-navigation
         
 -------------------------------------------------------------------------------
 Changelog:
