@@ -74,6 +74,7 @@ Requirements:
         
         $ cd ~/catkin_ws/src
         $ git clone https://github.com/ros-perception/slam_gmapping.git -b melodic-devel
+        $ sudo apt-get install ros-noetic-openslam-gmapping
         
 - In order for the sensors to work properly, "gazebo_ros_pkgs" files must be downloaded to your computer.
 
