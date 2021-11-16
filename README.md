@@ -26,7 +26,7 @@ http://wiki.ros.org/Robots/evarobot
 Launch Command:
 ---------------
 
-Gazebo Launching
+Gazebo Launching:
 
       Empty World:
 
