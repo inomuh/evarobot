@@ -34,7 +34,7 @@ Gazebo Launching:
 
       Maze World:
 
-            $ roslaunch evarobot_simulation evarobot_gazebo_emptyworld.launch
+            $ roslaunch evarobot_simulation evarobot_gazebo_maze.launch
       
 Solo-Rviz Launching:
 
