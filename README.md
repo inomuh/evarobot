@@ -26,10 +26,15 @@ http://wiki.ros.org/Robots/evarobot
 Launch Command:
 ---------------
 
-Gazebo Launching:
-
+Gazebo Launching
+Empty World:
+    
     $ roslaunch evarobot_simulation evarobot_gazebo_emptyworld.launch
 
+Maze World:
+
+      $ roslaunch evarobot_simulation evarobot_gazebo_emptyworld.launch
+      
 Solo-Rviz Launching:
 
     $ roslaunch evarobot_simulation evarobot_rviz_standalone.launch
@@ -90,4 +95,8 @@ Changelog:
 Update v1.0 - 03.12.20
 ----------------------
 - First version
+
+Update v1.0.1 - 16.11.21
+----------------------
+- Added new map and Gazebo launch file (map_depo.world) 
         
