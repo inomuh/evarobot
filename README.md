@@ -27,13 +27,14 @@ Launch Command:
 ---------------
 
 Gazebo Launching
-Empty World:
-    
-    $ roslaunch evarobot_simulation evarobot_gazebo_emptyworld.launch
 
-Maze World:
+      Empty World:
 
-      $ roslaunch evarobot_simulation evarobot_gazebo_emptyworld.launch
+          $ roslaunch evarobot_simulation evarobot_gazebo_emptyworld.launch
+
+      Maze World:
+
+            $ roslaunch evarobot_simulation evarobot_gazebo_emptyworld.launch
       
 Solo-Rviz Launching:
 
