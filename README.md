@@ -59,8 +59,7 @@ Requirements:
 -------------
 - In order for the "joint_state_publisher" to work, "joint_state_publisher_gui" package must be downloaded to your computer.
 
-        $ sudo apt update
-        $ sudo apt install ros-noetic-joint-state-publisher-gui
+        $ sudo apt update && sudo apt install ros-noetic-joint-state-publisher-gui
         
 - In order for the "joint_state_controller" to work, "joint_state_controller_gui" package must be downloaded to your computer.
 
@@ -68,19 +67,15 @@ Requirements:
        
 - In order for the "driver_base" to work, "driver_base" package must be downloaded to your workspace.
         
-        $ cd ~/catkin_ws/src
-        $ git clone https://github.com/ros-drivers/driver_common -b indigo-devel
+        $ cd ~/catkin_ws/src && git clone https://github.com/ros-drivers/driver_common -b indigo-devel
         
 - In order for the "interactive marker twist server" to work, "interactive_twist_marker_server" package must be downloaded to your workspace.
         
-        $ cd ~/catkin_ws/src
-        $ git clone https://github.com/ros-visualization/interactive_marker_twist_server -b kinetic-devel
+        $ cd ~/catkin_ws/src && git clone https://github.com/ros-visualization/interactive_marker_twist_server -b kinetic-devel
         
 - In order for the SLAM to work, "slam_gmapping" package must be downloaded to your workspace.
         
-        $ cd ~/catkin_ws/src
-        $ git clone https://github.com/ros-perception/slam_gmapping.git -b melodic-devel
-        $ sudo apt-get install ros-noetic-openslam-gmapping
+        $ cd ~/catkin_ws/src && git clone https://github.com/ros-perception/slam_gmapping.git -b melodic-devel && sudo apt-get install ros-noetic-openslam-gmapping
         
 - In order for the sensors to work properly, "gazebo_ros_pkgs" files must be downloaded to your computer.
 
